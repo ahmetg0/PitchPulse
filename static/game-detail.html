@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Game Details</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+
+  <body class="gameDetailPage">
+    <main class="container">
+      <div class="mainGrid">
+        <section class="card">
+          <div class="cardHeader">
+            <button id="backBtn" class="btn">Back to Games</button>
+            <div id="gameStatus" class="gameStatusTop"></div>
+            <div class="cardHeaderActions">
+              <button id="refreshBtn" class="btn">Refresh</button>
+            </div>
+          </div>
+
+          <div class="detailTopRow">
+            <div class="detailTopMeta">
+              <p id="leagueName" class="detailTopLeague">—</p>
+              <p id="kickoffDate" class="detailTopKickoff">Kickoff: TBD</p>
+            </div>
+            <span id="statusPill" class="pill detailStatusPill">Idle</span>
+          </div>
+
+          <div id="gameContent" class="gameDetail">
+            <!-- Game details will be rendered here -->
+          </div>
+
+          <div id="matchContextPanel" class="matchContextPanel"></div>
+          <div id="periodTotalsPanel" class="periodTotalsPanel"></div>
+
+          <div id="statsSection" class="statsSection" style="display: block;">
+            <div class="statsTabs">
+              <button id="timelineTab" class="statsTab active" data-tab="timeline">Timeline</button>
+              <button id="seasonStandingsTab" class="statsTab" data-tab="season">Seasonal Standings</button>
+              <button id="startingLineupTab" class="statsTab" data-tab="starting">Match Lineups</button> 
+              <button id="lineupTab" class="statsTab" data-tab="lineup">Full Rosters</button>
+            </div>
+
+            <div id="timelineContent" class="statsContent active">
+              Timeline will be shown here.
+            </div>
+
+            <div id="seasonStandingsContent" class="statsContent">
+              <!-- Seasonal standings will be rendered here -->
+            </div>
+            <div id="lineupContent" class="statsContent">
+              Starting lineup will be shown here.
+            </div>
+            <div id="startingLineupContent" class="statsContent"></div>
+          </div>
+        </section>
+
+        <section class="card chatbotBox">
+          <div class="chatbotHeader">
+            <h3>Game Chat</h3>
+          </div>
+          <div id="chatbotContent" class="chatbotContent">
+            <!-- Chatbot messages will be rendered here -->
+            <div class="chatbotWelcome">
+              <p>Ask me anything about this game!</p>
+            </div>
+          </div>
+          <div class="chatbotInput">
+            <input type="text" id="chatInput" class="chatInput" placeholder="Type your question..." />
+            <button id="sendBtn" class="btn sendBtn">Send</button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="/static/game-detail.js"></script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Settings</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+
+  <body class="settingsPage">
+    <main class="container">
+      <section class="card">
+        <div class="settingsIntro">
+          <div>
+            <h1 class="settingsTitle">Settings</h1>
+          </div>
+          <div class="settingsIntroActions">
+            <button id="backBtn" class="btn" type="button">Back</button>
+          </div>
+        </div>
+
+        <div class="cardHead">
+          <h2>Favorite</h2>
+        </div>
+
+        <div class="settingsGrid">
+          <div class="settingsField">
+            <select id="favoriteLeagueSelect" aria-label="Favorite league selector">
+              <option value="">Select a league…</option>
+            </select>
+            <div class="small settingsHelp">This league will load by default when you open the app.</div>
+          </div>
+        </div>
+
+        <div class="settingsActions">
+          <button id="saveBtn" class="btn btn-primary" type="button">Save</button>
+          <div id="statusPill" class="pill settingsStatusPill" role="status" aria-live="polite">Loading...</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/settings.js"></script>
+  </body>
+</html>
+

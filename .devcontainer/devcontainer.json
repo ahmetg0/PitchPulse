@@ -1,0 +1,21 @@
+{
+	"name": "Soccer App Dev Container",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+	"service": "web",
+	"workspaceFolder": "/app",
+	"settings": {
+		"python.pythonPath": "/usr/local/bin/python",
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	"extensions": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode"
+	],
+	"postCreateCommand": "pip install -r requirements.txt",
+	"forwardPorts": [5000, 5678],
+	"remoteUser": "root"
+}

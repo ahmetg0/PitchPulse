@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>PitchPulse</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+
+  <body class="homePage">
+    <main class="container">
+      <div class="mainPageGrid">
+      <aside class="appSidebar" aria-label="Sidebar navigation">
+        <div class="brandRow">
+          <img class="brandLogo" src="static/Gemini_Generated_Image_u0obkiu0obkiu0ob.png" alt="PitchPulse logo" />
+          <div class="sidebarBrand">PitchPulse</div>
+        </div>
+        <div class="chatHistoryTitle">Chat History</div>
+        <div class="chatSearchWrap">
+          <svg class="chatSearchIcon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <line x1="16.65" y1="16.65" x2="21" y2="21" stroke="currentColor" stroke-width="2"></line>
+          </svg>
+          <input id="chatSearchInput" class="chatSearchInput" type="text" placeholder="Search teams or date" aria-label="Search chat history" />
+        </div>
+        <div id="chatHistoryList" class="chatHistoryList"></div>
+        <div class="sidebarBottom">
+          <div class="sidebarNav sidebarBottomNav">
+            <button id="settingsBtn" class="sidebarNavBtn btn" type="button">Settings</button>
+            <button id="chatClearAllBtn" class="sidebarNavBtn btn" type="button" aria-label="Clear all chat history">Clear All</button>
+          </div>
+          <div class="accountRow">
+            <div id="accountName" class="accountName">Guest</div>
+            <button id="loginBtn" class="sidebarLogoutBtn btn" type="button">Log In</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="card">
+        <div class="cardHead">
+          <h2>Season Schedule</h2>
+          <div class="meta">
+            <span id="statusPill" class="pill">Idle</span>
+          </div>
+        </div>
+
+        <div class="searchRow">
+          <select id="competitionSelect" class="btn searchSelect" aria-label="Competition selector">
+            <option value="">Competition</option>
+          </select>
+          <select id="seasonSelect" class="btn searchSelect" aria-label="Season selector">
+            <option value="">Season</option>
+          </select>
+          <div class="filterGroup" role="group" aria-label="Game filter">
+            <button class="filterBtn" data-filter="past" type="button">Past</button>
+            <button class="filterBtn" data-filter="current" type="button">Live</button>
+            <button class="filterBtn" data-filter="future" type="button">Future</button>
+          </div>
+          <div class="searchBox">
+            <svg class="searchIcon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+              <line x1="16.65" y1="16.65" x2="21" y2="21" stroke="currentColor" stroke-width="2"></line>
+            </svg>
+            <input
+              id="scheduleSearch"
+              class="searchInput"
+              type="text"
+              placeholder="Search teams, venue, status, or kickoff..."
+              aria-label="Search schedule"
+            />
+          </div>
+          <button id="refreshBtn" class="btn" type="button">Refresh</button>
+        </div>
+
+        <!-- Scrollable list -->
+        <div id="gamesScroller" class="scroller" aria-label="Season schedule list">
+          <div id="loadingState" class="empty">Loading schedule…</div>
+        </div>
+
+        <div class="footerRow">
+          <div class="small">
+            Last updated: <span id="lastUpdated">—</span>
+          </div>
+          <div class="small">
+            Tip: scroll to view more matches
+          </div>
+        </div>
+      </section>
+      </div>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
+
