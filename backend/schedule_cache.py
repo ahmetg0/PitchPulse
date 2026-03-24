@@ -3,7 +3,7 @@ import os
 import sqlite3
 from datetime import datetime, timezone
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "data", "schedule_cache.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "schedule_cache.db")
 
 
 def init_db():

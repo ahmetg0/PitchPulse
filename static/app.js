@@ -27,6 +27,7 @@ const SCHEDULE_CACHE_KEY = "mainPageScheduleCache";
 let restoredMainPageState = null;
 let favoriteLeagueId = "";
 let timelineLiveSyncInFlight = false;
+let restoreScrollAfterRender = 0;
 const AUTO_END_AFTER_KICKOFF_MS = 3 * 60 * 60 * 1000;
 
 async function loadFavoriteLeaguePreference() {
@@ -634,16 +635,30 @@ function applySearchAndRender(scrollToCurrent = false) {
   renderGroupedGames(displayGroups);
   saveMainPageState();
 
-  if (scrollToCurrent && !activeFilter) {
-    const currentSection = document.getElementById("currentSection");
-    if (currentSection) {
-      currentSection.scrollIntoView({ block: "start" });
-      return;
-    }
+  if (restoreScrollAfterRender > 0) {
+    const target = restoreScrollAfterRender;
+    restoreScrollAfterRender = 0;
+    requestAnimationFrame(() => { scroller.scrollTop = target; });
+    return;
+  }
 
-    const futureSection = document.getElementById("futureSection");
-    if (futureSection) {
-      futureSection.scrollIntoView({ block: "start" });
+  if (scrollToCurrent) {
+    if (activeFilter === "past") {
+      // Scroll to bottom so most-recent past games are visible
+      requestAnimationFrame(() => { scroller.scrollTop = scroller.scrollHeight; });
+    } else if (activeFilter === "future") {
+      // Scroll to top so nearest upcoming games are visible
+      const futureSection = document.getElementById("futureSection");
+      if (futureSection) futureSection.scrollIntoView({ block: "start" });
+    } else {
+      // No filter: scroll to live games, or past/future boundary if none
+      const currentSection = document.getElementById("currentSection");
+      if (currentSection) {
+        currentSection.scrollIntoView({ block: "start" });
+        return;
+      }
+      const futureSection = document.getElementById("futureSection");
+      if (futureSection) futureSection.scrollIntoView({ block: "start" });
     }
   }
 }
@@ -836,9 +851,7 @@ async function initializeSelectionFlow() {
 
     const savedScrollTop = Number(savedState.scroll_top);
     if (Number.isFinite(savedScrollTop) && savedScrollTop > 0) {
-      requestAnimationFrame(() => {
-        scroller.scrollTop = savedScrollTop;
-      });
+      restoreScrollAfterRender = savedScrollTop;
     }
 
     saveMainPageState();
@@ -1192,7 +1205,19 @@ filterButtons.forEach((button) => {
 
     syncFilterButtonState();
 
-    applySearchAndRender(!activeFilter);
+    if (!activeFilter) {
+      const prevFilter = selected;
+      applySearchAndRender(false);
+      requestAnimationFrame(() => {
+        const currentSection = document.getElementById("currentSection");
+        if (currentSection) { currentSection.scrollIntoView({ block: "start" }); return; }
+        const futureSection = document.getElementById("futureSection");
+        if (futureSection) futureSection.scrollIntoView({ block: "start" });
+      });
+    } else {
+      applySearchAndRender(true);
+    }
+
     saveMainPageState();
   });
 });
@@ -1223,6 +1248,10 @@ function rehydrateScheduleFromLocalStorage() {
 
     const mergedGames = mergeWithLocalFreshSnapshots(parsed, 0);
     currentGroups = regroupGamesByBucket(mergedGames);
+    const savedScrollTop = Number(restoredMainPageState?.scroll_top || 0);
+    if (Number.isFinite(savedScrollTop) && savedScrollTop > 0) {
+      restoreScrollAfterRender = savedScrollTop;
+    }
     applySearchAndRender(false);
 
     if (selectedSeasonId) {
@@ -1241,9 +1270,15 @@ function rehydrateScheduleFromLocalStorage() {
   }
 }
 
-window.addEventListener("pageshow", async () => {
+window.addEventListener("pageshow", async (event) => {
   await checkAuthStatus();
   await loadChatHistoryList();
+
+  if (event.persisted) {
+    // Restored from bfcache (back/forward navigation) — DOM and scroll are already intact.
+    // Just refresh auth UI and chat list; don't re-render or touch scroll.
+    return;
+  }
 
   const restored = rehydrateScheduleFromLocalStorage();
   if (restored && selectedSeasonId) {

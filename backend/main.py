@@ -49,7 +49,7 @@ from get_starting_lineups import fetch_starting_lineups
 load_dotenv()
 init_db()
 
-app = Flask(__name__, static_folder="static")
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), "..", "static"))
 app.secret_key = os.urandom(32)
 
 # Flask-Login setup

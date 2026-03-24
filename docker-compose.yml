@@ -7,7 +7,7 @@ services:
     env_file:
       - .env  # Loads your Sportradar API key and Google OAuth secrets
     environment:
-      - FLASK_APP=main.py
+      - FLASK_APP=backend/main.py
     volumes:
       - .:/app
     depends_on:

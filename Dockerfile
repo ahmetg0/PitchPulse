@@ -19,6 +19,8 @@ RUN pip install --no-cache-dir flask requests python-dotenv flask-login authlib
 # Copy the rest of your soccer app code
 COPY . .
 
+ENV FLASK_APP=backend/main.py
+
 EXPOSE 8000
 
 # Start the application
